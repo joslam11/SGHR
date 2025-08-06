@@ -1,7 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using SGHR.Persistance.Models;
+using SGHR.WebApp.Api;
+
 
 namespace SGHR.Persistance.DBContext;
 
@@ -18,6 +18,8 @@ public partial class SGHRDbContext : DbContext
     public virtual DbSet<CategoriasHabitacion> CategoriasHabitaciones { get; set; }
 
     public virtual DbSet<Tarifa> Tarifas { get; set; }
+
+    public virtual DbSet<Habitaciones> Habitaciones { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -49,6 +51,12 @@ public partial class SGHRDbContext : DbContext
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK_Tarifa_Categoria");
         });
+
+        modelBuilder.Entity<Habitaciones>()
+    .HasOne(h => h.CategoriaHabitacion)
+    .WithMany(c => c.Habitaciones)
+    .HasForeignKey(h => h.IdCategoriaHabitacion);
+
 
         OnModelCreatingPartial(modelBuilder);
     }

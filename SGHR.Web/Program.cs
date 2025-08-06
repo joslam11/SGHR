@@ -1,3 +1,7 @@
+using SGHR.Web.Controllers;
+using SGHR.Web.Helpers;
+using SGHR.Web.Helpers.Abstraction;
+
 namespace SGHR.Web
 {
     public class Program
@@ -6,8 +10,14 @@ namespace SGHR.Web
         {
             var builder = WebApplication.CreateBuilder(args);
 
+            //
+            builder.Services.AddScoped<IHelper, Helper>();
+
             // Add services to the container.
             builder.Services.AddControllersWithViews();
+
+            builder.Services.AddHttpClient<CategoriasHabitacionController>();
+
 
             var app = builder.Build();
 

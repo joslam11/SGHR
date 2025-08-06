@@ -32,11 +32,6 @@ namespace SGHR.Persistance.Repositories
             await _categoriasHabitacion.AddAsync(categoriasHabitacion);
         }
 
-        public void EliminarCategoriaAsync(CategoriasHabitacion categoriasHabitacion)
-        {
-           _categoriasHabitacion.Remove(categoriasHabitacion);
-        }
-
         public async Task GuardarCambiosAsync()
         {
             await _context.SaveChangesAsync();
@@ -45,6 +40,22 @@ namespace SGHR.Persistance.Repositories
         public async Task<IEnumerable<CategoriasHabitacion>> ObtenerTodasCategoriasAsync()
         {
             return await _categoriasHabitacion.ToListAsync();
+        }
+
+        public async Task EliminarCategoriaAsync(CategoriasHabitacion categoriasHabitacion)
+        {
+           _categoriasHabitacion.Remove(categoriasHabitacion);
+            await _context.SaveChangesAsync();
+        }
+
+        public async Task<CategoriasHabitacion?> ObtenerPorIdAsync(int? id)
+        {
+            return await _categoriasHabitacion.FirstOrDefaultAsync(c => c.IdCategoriaHabitacion == id);
+        }
+
+        public async Task<bool> ExisteCategoriaPorNombre(string nombre)
+        {
+            return await _categoriasHabitacion.AnyAsync(c => c.Nombre.ToLower() == nombre.ToLower());
         }
     }
 }

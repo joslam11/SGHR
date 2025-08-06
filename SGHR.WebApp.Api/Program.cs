@@ -2,10 +2,18 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Routing;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata;
+using SGHR.Application.InterfacesServices;
+using SGHR.Application.ServicesApplication;
+using SGHR.Domain.InterfacesDomainServices;
 using SGHR.Domain.InterfacesRepositories;
-using SGHR.Infraestructure.AccesoADatosSP;
+using SGHR.Domain.InterfacesServices;
 using SGHR.Persistance.DBContext;
 using SGHR.Persistance.Repositories;
+using SGHR.Domain.DomainServices;
+using SGHR.Infraestructure.Common.StoredProcedures;
+using SGHR.Web.Helpers.Abstraction;
+using SGHR.Web.Helpers;
 
 namespace SGHR.WebApp.Api
 {
@@ -19,8 +27,14 @@ namespace SGHR.WebApp.Api
             builder.Services.AddDbContext<SGHRDbContext>(options =>
                 options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
-            builder.Services.AddScoped<IStoredProcedure, AbstraerSP>();
+            // 
             builder.Services.AddScoped<ITarifaRepository, TarifaRepository>();
+            builder.Services.AddScoped<ITarifaService, TarifaService>();
+            builder.Services.AddScoped<ICategoriasHabitacionRepository, CategoriasHabitacionRepository>();
+            builder.Services.AddScoped<ICategoriasHabitacionesService, CategoriasHabitacioneService>();
+            builder.Services.AddScoped<ICategoriasHabitacionesDomainService, CategoriasHabitacionDomainService>();
+            builder.Services.AddScoped<IHabitacionesRepository, HabitacionesRepository>();
+           
 
 
             // Add services to the container.
